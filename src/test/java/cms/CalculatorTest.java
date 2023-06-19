@@ -1,9 +1,8 @@
 package cms;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class CalculatorTest {
@@ -24,8 +23,18 @@ class CalculatorTest {
         calculator = new Calculator();
     }
     @Test
+    @DisplayName("Add")
     void add() {
+        assertEquals(5.0, calculator.add(2.0F, 3.0F), "Addition of positive numbers");
+        assertEquals(-5.0, calculator.add(-2.0F, -3.0F), "Addition of negative numbers");
+        assertEquals(0.0, calculator.add(0.0F, 0.0F), "Addition of zeros");
+
+        InvalidNumberException exception = Assertions.assertThrows(InvalidNumberException.class, () -> {
+            calculator.add(2.0F, Float.NaN);
+        });
+        assertEquals("Invalid number: NaN", exception.getMessage(), "Exception message should match");
     }
+
 
     @Test
     void subtract() {
